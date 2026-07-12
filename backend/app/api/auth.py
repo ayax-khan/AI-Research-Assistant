@@ -67,7 +67,7 @@ async def verify_otp(payload: OTPVerify, db: AsyncSession = Depends(get_db)):
 
     user.is_active = True
     await db.flush()
-    token = create_access_token(data={"sub": user.id})
+    token = create_access_token(data={"sub": str(user.id)})
     return Token(access_token=token)
 
 
@@ -105,7 +105,7 @@ async def login(payload: UserLogin, db: AsyncSession = Depends(get_db)):
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Account not verified. Please verify OTP first.",
         )
-    token = create_access_token(data={"sub": user.id})
+    token = create_access_token(data={"sub": str(user.id)})
     return Token(access_token=token)
 
 

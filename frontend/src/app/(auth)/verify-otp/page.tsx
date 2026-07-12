@@ -15,10 +15,18 @@ function VerifyOtpForm() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     if (!email) router.push("/register");
   }, [email, router]);
+
+  useEffect(() => {
+    if (verified) {
+      const t = setTimeout(() => router.push("/dashboard"), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [verified, router]);
 
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +34,7 @@ function VerifyOtpForm() {
     setLoading(true);
     try {
       await verifyOtp(email, code);
-      router.push("/dashboard");
+      setVerified(true);
     } catch (err: any) {
       setError(err.response?.data?.detail || "Verification failed");
     } finally {
@@ -61,7 +69,12 @@ function VerifyOtpForm() {
             </Typography>
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
             {message && <Alert severity="success" sx={{ mb: 2 }}>{message}</Alert>}
-            <Box component="form" onSubmit={handleVerify}>
+            {verified && (
+              <Alert severity="success" sx={{ mb: 2 }}>
+                Email verified successfully! Redirecting to dashboard...
+              </Alert>
+            )}
+            {!verified && <Box component="form" onSubmit={handleVerify}>
               <TextField
                 fullWidth label="OTP Code" margin="normal"
                 value={code} onChange={(e) => setCode(e.target.value)}
@@ -71,15 +84,15 @@ function VerifyOtpForm() {
               <Button type="submit" variant="contained" fullWidth size="large" sx={{ mt: 3 }} disabled={loading}>
                 Verify Account
               </Button>
-            </Box>
-            <Box sx={{ mt: 2, textAlign: "center" }}>
+            </Box>}
+            {!verified && <Box sx={{ mt: 2, textAlign: "center" }}>
               <Typography variant="body2">
                 Didn't receive the code?{" "}
                 <Button variant="text" onClick={handleResend} disabled={loading}>
                   Resend OTP
                 </Button>
               </Typography>
-            </Box>
+            </Box>}
           </CardContent>
         </Card>
       </Box>
