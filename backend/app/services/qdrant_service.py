@@ -71,7 +71,7 @@ class QdrantService:
             query_vector=query_vector,
             limit=top_k,
             query_filter=search_filter,
-            search_params=SearchParams(ef=128),
+            search_params=SearchParams(hnsw_ef=128),
             score_threshold=score_threshold,
         )
 
