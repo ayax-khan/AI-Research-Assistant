@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import ReactMarkdown from "react-markdown";
 import Navbar from "@/components/Navbar";
 import { getPaper, summarizePaper, getRelatedPapers, askQuestion, deletePaper } from "@/lib/papers";
 import { getNotes, createNote, updateNote, deleteNote } from "@/lib/note";
@@ -169,9 +170,9 @@ export default function PaperDetailPage() {
                 </Box>
                 {answer && (
                   <Box sx={{ bgcolor: "grey.50", p: 2, borderRadius: 2 }}>
-                    <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
-                      {answer.answer}
-                    </Typography>
+                    <Box sx={{ "& p": { mb: 1 }, "& ul": { pl: 2, mb: 1 }, "& li": { mb: 0.5 } }}>
+                      <ReactMarkdown>{answer.answer}</ReactMarkdown>
+                    </Box>
                     {answer.sources.length > 0 && (
                       <>
                         <Divider sx={{ my: 1 }} />

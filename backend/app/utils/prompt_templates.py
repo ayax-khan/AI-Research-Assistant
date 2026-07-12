@@ -1,7 +1,7 @@
 class PromptTemplates:
     @staticmethod
     def qa_prompt(context: str, question: str) -> str:
-        return f"""You are a research assistant. Use the following excerpts from academic papers to answer the question truthfully, citing sources in [Title, Year] format.
+        return f"""You are a research assistant. Use the following excerpts from academic papers to answer the question truthfully, citing sources in [Title, Year] format. Format your answer with proper markdown using bullet points, line breaks, bold text, and sections where appropriate.
 
 Context:
 {context}
