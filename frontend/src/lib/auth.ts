@@ -11,6 +11,17 @@ export async function register(name: string, email: string, password: string) {
   return data;
 }
 
+export async function verifyOtp(email: string, code: string) {
+  const { data } = await api.post("/api/auth/verify-otp", { email, code });
+  localStorage.setItem("token", data.access_token);
+  return data;
+}
+
+export async function resendOtp(email: string) {
+  const { data } = await api.post("/api/auth/resend-otp", { email });
+  return data;
+}
+
 export async function getMe() {
   const { data } = await api.get("/api/auth/me");
   return data;

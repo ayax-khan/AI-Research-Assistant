@@ -19,7 +19,7 @@ export default function RegisterPage() {
     setError("");
     try {
       await register(name, email, password);
-      router.push("/login");
+      router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
     } catch (err: any) {
       setError(err.response?.data?.detail || "Registration failed");
     }
