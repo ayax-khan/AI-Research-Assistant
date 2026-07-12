@@ -40,3 +40,6 @@ docker-compose.override.yml
 # Qdrant local data
 qdrant_data/
 postgres_data/
+
+# Test artifacts
+test_*.json
